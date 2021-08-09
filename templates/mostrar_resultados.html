@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Subir archivo</title>
+{% endblock %}
+
+{% block body %}
+<br>
+<h1>Resultados</h1>
+
+<hr>
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="pills-tablas-tab" data-toggle="pill" href="#pills-tablas" role="tab"
+            aria-controls="pills-tablas" aria-selected="true">Tablas</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-graficas-tab" data-toggle="pill" href="#pills-graficas" role="tab"
+            aria-controls="pills-graficas" aria-selected="false">Gráficas</a>
+    </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-tablas" role="tabpanel" aria-labelledby="pills-tablas-tab">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-positivas-tab" data-toggle="pill" href="#v-pills-positivas" role="tab"
+                aria-controls="v-pills-positivas" aria-selected="true">Positivas</a>
+            <a class="nav-link" id="v-pills-negativas-tab" data-toggle="pill" href="#v-pills-negativas" role="tab"
+                aria-controls="v-pills-negativas" aria-selected="false">Negativas</a>
+            <a class="nav-link" id="v-pills-neutras-tab" data-toggle="pill" href="#v-pills-neutras" role="tab"
+                aria-controls="v-pills-neutras" aria-selected="false">Neutras</a>
+                <a class="nav-link" id="v-pills-conflicto-tab" data-toggle="pill" href="#v-pills-conflicto" role="tab"
+                aria-controls="v-pills-conflicto" aria-selected="false">Conflicto</a>
+        </div>
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-positivas" role="tabpanel" aria-labelledby="v-pills-positivas-tab">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="text-align: center;" scope="col">Positivas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aspectos in dict(polaridades[0]).keys() %}
+                        <tr>
+                            <td style="text-align: center;"> {{ aspectos }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="v-pills-negativas" role="tabpanel" aria-labelledby="v-pills-negativas-tab">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="text-align: center;" scope="col">Negativas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aspectos in dict(polaridades[1]).keys() %}
+                        <tr>
+                            <td style="text-align: center;"> {{ aspectos }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="v-pills-neutras" role="tabpanel" aria-labelledby="v-pills-neutras-tab">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="text-align: center;" scope="col">Neutras</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aspectos in dict(polaridades[2]).keys() %}
+                        <tr>
+                            <td style="text-align: center;"> {{ aspectos }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane fade" id="v-pills-conflicto" role="tabpanel" aria-labelledby="v-pills-conflicto-tab">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="text-align: center;" scope="col">Conflicto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aspectos in dict(polaridades[3]).keys() %}
+                        <tr>
+                            <td style="text-align: center;"> {{ aspectos }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-graficas" role="tabpanel" aria-labelledby="pills-graficas-tab">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            {% for aspecto in aspectos.keys() %}
+            <a class="nav-link" id="v-pills-{{aspecto}}-tab" data-toggle="pill" href="#v-pills-{{aspecto}}" role="tab"
+                aria-controls="v-pills-{{aspecto}}" aria-selected="false">{{aspecto}}</a>
+            {% endfor %}
+        </div>
+        <div class="tab-content" id="v-pills-tabContent">
+            {% for aspecto in aspectos.keys() %}
+            <div class="tab-pane fade" id="v-pills-{{aspecto}}" role="tabpanel" aria-labelledby="v-pills-{{aspecto}}-tab">
+                <div class="container">  
+                    <canvas id="myChart-{{aspecto}}" style="max-width: 1000px;"></canvas>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<hr>
+<div style="text-align: center;">
+    <a class="btn btn-primary " href='/'>Inicio</a>
+    <a class="btn btn-primary " href='/subir'>Subir otro archivo</a>
+</div>
+{% endblock %}
+{% block foot %}
+{% for aspecto in aspectos.keys() %}
+<script>
+    var ctx = document.getElementById("myChart-{{aspecto}}").getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+    labels: ['Positivas', 'Negativas', 'Neutras', 'Conflicto'],
+    datasets: [{
+    label: ' Numero de reseñas',
+    data: {{aspectos[aspecto]}},
+    backgroundColor: [
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(255, 159, 64, 0.2)'
+    ],
+    borderColor: [
+    'rgba(255,99,132,1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)'
+    ],
+    borderWidth: 1
+    }]
+    },
+    options: {
+    scales: {
+    yAxes: [{
+    ticks: {
+    beginAtZero: true
+    }
+    }]
+    }
+    }
+    });
+    </script>
+{% endfor %}
+{% endblock %}

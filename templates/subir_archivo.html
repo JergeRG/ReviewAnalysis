@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Subir archivo</title>
+{% endblock %}
+
+{% block body %}
+<br>
+<div class="container">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <span>{{message}}</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+</div>
+
+<br>
+<h1>Subir archivo</h1>
+
+<hr>
+<p style="white-space:pre-wrap">Seleccione el archivo que contenga las reseñas que desee clasificar, dicho archivo de tener un formato adecuado.</p>
+
+<form action='{{ url_for("subir") }}' method='POST' enctype="multipart/form-data">
+  <div class="form-group">
+    <div class="custom-file">
+      <input type="file" class="custom-file-input" name="file" id="file" required>
+      <label class="custom-file-label" for="file">Elije el archivo</label>
+    </div>
+  </div>
+  <input type='submit' class="btn btn-primary " value='Clasificar'>
+  <a class="btn btn-primary " href='/'>Regresar</a>
+</form>
+
+<hr>
+{% endblock %}

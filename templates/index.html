@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Inicio</title>
+{% endblock %}
+
+{% block body %}
+<br>
+<h1>Inicio</h1>
+<br>
+<main role="main">
+    <div class="jumbotron">
+        <div class="col-sm-8 mx-auto">
+            <h1>Bienvenidos</h1>
+            <p>A continuación, se presenta un sistema de detección de polaridad sobre aspectos en reseñas de
+                restaurantes para el idioma español. El sistema clasifica las reseñas mediante técnimas de procesamiento
+                de lenguaje natural por medio de redes neuronales y muestra el resultado según la opción que se elija.
+            </p>
+        </div>
+    </div>
+</main>
+
+<hr>
+<br>
+<br>
+<h2> Ingresar reseña </h2>
+<p style="white-space:pre-wrap">Esta opción permite realizar la calsificación de una sola reseña ingresada mediante un cuadro de texto. Da como resultado la polaridad y los aspectos que contenga.</p>
+<br>
+<a class="btn btn-primary " href='/ingresar'>Elegir</a>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<h2> Subir archivo </h2>
+<p style="white-space:pre-wrap">Esta opción permite realizar la calsificación de varias reseñas contenidas en un archivo de texto o en una BD. A la salida de la clasificación el sistema permitirá ver mediante gráficas los resultados.</p>
+<br>
+<a class="btn btn-primary " href='/subir'>Elegir</a>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<h2> Consultar </h2>
+<p style="white-space:pre-wrap">Esta opción permite realizar una consulta a los archivos de reseñas ya clasificados que se han guardado en la base de datos del sistema mediante su número de identificación.</p>
+<br>
+<a class="btn btn-primary " href='/consultar'>Elegir</a>
+<br>
+<br>
+<hr>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Ingresar reseña</title> 
+{% endblock %}
+
+{% block body %}
+<br>
+<div class="container">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <span>{{message}}</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+</div>
+<br>
+<h1>Consultar</h1>
+
+    <hr>
+    <form action='/consultar' method='POST'>
+        <label for="content">Id de búsqueda:</label>
+        <input class="form-control" name='id' id="id" aria-label="Ingresar reseña" required></input>
+        <br>
+        <input type='submit'  class="btn btn-primary " value='Buscar'>
+        <a class="btn btn-primary " href='/'>Regresar</a>
+    </form>
+    <hr>
+{% endblock %}
